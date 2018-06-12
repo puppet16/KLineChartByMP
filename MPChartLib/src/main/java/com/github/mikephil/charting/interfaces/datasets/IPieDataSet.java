@@ -1,5 +1,6 @@
 package com.github.mikephil.charting.interfaces.datasets;
 
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
@@ -34,11 +35,6 @@ public interface IPieDataSet extends IDataSet<PieEntry> {
 
     PieDataSet.ValuePosition getXValuePosition();
     PieDataSet.ValuePosition getYValuePosition();
-
-    /**
-     * When valuePosition is OutsideSlice, use slice colors as line color if true
-     * */
-    boolean isUsingSliceColorAsValueLineColor();
 
     /**
      * When valuePosition is OutsideSlice, indicates line color

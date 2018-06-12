@@ -65,7 +65,7 @@ public class FileUtils {
                 }
             }
         } catch (IOException e) {
-            Log.e(LOG, e.toString());
+//            Log.e(LOG, e.toString());
         }
 
         return entries;

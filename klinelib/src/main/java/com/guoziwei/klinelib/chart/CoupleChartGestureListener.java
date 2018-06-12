@@ -18,12 +18,14 @@ public class CoupleChartGestureListener implements OnChartGestureListener {
 
     private BarLineChartBase srcChart;
     private Chart[] dstCharts;
+    private boolean mIsCanLoad;
+    private OnAxisChangeListener mOnAxisChangeListener;
+    private OnChartScrollEndListener mScrollEndListener;
 
-    private OnAxisChangeListener listener;
-
-    public CoupleChartGestureListener(OnAxisChangeListener listener, BarLineChartBase srcChart, Chart... dstCharts) {
+    public CoupleChartGestureListener(OnAxisChangeListener onAxisChangeListener, OnChartScrollEndListener scrollEndListener, BarLineChartBase srcChart, Chart... dstCharts) {
         this(srcChart, dstCharts);
-        this.listener = listener;
+        this.mOnAxisChangeListener = onAxisChangeListener;
+        this.mScrollEndListener = scrollEndListener;
     }
 
     public CoupleChartGestureListener(BarLineChartBase srcChart, Chart... dstCharts) {
@@ -34,11 +36,25 @@ public class CoupleChartGestureListener implements OnChartGestureListener {
     @Override
     public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
         syncCharts();
+        mIsCanLoad = false;
     }
 
     @Override
     public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
         syncCharts();
+        int rightXIndex = (int) Math.floor(srcChart.getHighestVisibleX()); //获取可视区域中，显示在x轴最右边的index
+        int size = (int) srcChart.getXRange();
+
+        if (lastPerformedGesture == ChartTouchListener.ChartGesture.DRAG) {
+            mIsCanLoad = true;
+            if(rightXIndex == size-1 || rightXIndex == size){
+                mIsCanLoad = false;
+                //加载更多数据的操作
+                if (mScrollEndListener != null) {
+                    mScrollEndListener.onChartScrollLeftEnd();
+                }
+            }
+        }
     }
 
     @Override
@@ -59,16 +75,16 @@ public class CoupleChartGestureListener implements OnChartGestureListener {
     @Override
     public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
         syncCharts();
-        if (listener != null) {
-            listener.onAxisChange(srcChart);
+        if (mOnAxisChangeListener != null) {
+            mOnAxisChangeListener.onAxisChange(srcChart);
         }
     }
 
     @Override
     public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
 //        Log.d(TAG, "onChartScale " + scaleX + "/" + scaleY + " X=" + me.getX() + "Y=" + me.getY());
-        if (listener != null) {
-            listener.onAxisChange(srcChart);
+        if (mOnAxisChangeListener != null) {
+            mOnAxisChangeListener.onAxisChange(srcChart);
         }
         syncCharts();
     }
@@ -77,8 +93,8 @@ public class CoupleChartGestureListener implements OnChartGestureListener {
     public void onChartTranslate(MotionEvent me, float dX, float dY) {
 //        Log.d(TAG, "onChartTranslate " + dX + "/" + dY + " X=" + me.getX() + "Y=" + me.getY());
 //        Log.d(TAG, "getHighestVisibleX  " +srcChart.getHighestVisibleX());
-        if (listener != null) {
-            listener.onAxisChange(srcChart);
+        if (mOnAxisChangeListener != null) {
+            mOnAxisChangeListener.onAxisChange(srcChart);
         }
         syncCharts();
     }
@@ -113,5 +129,9 @@ public class CoupleChartGestureListener implements OnChartGestureListener {
 
     public interface OnAxisChangeListener {
         void onAxisChange(BarLineChartBase chart);
+    }
+
+    public interface OnChartScrollEndListener {
+        void onChartScrollLeftEnd();
     }
 }

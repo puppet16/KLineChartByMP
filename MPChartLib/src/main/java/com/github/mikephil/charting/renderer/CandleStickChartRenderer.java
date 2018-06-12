@@ -153,6 +153,7 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                 mBodyBuffers[2] = (xPos + 0.5f - barSpace);
                 mBodyBuffers[3] = open * phaseY;
 
+
                 trans.pointValuesToPixel(mBodyBuffers);
 
                 // draw body differently for increasing and decreasing entry
@@ -315,8 +316,8 @@ public class CandleStickChartRenderer extends LineScatterCandleRadarRenderer {
                         Utils.drawImage(
                                 c,
                                 icon,
-                                (int)(x + iconsOffset.x),
-                                (int)(y + iconsOffset.y),
+                                (int) (x + iconsOffset.x),
+                                (int) (y + iconsOffset.y),
                                 icon.getIntrinsicWidth(),
                                 icon.getIntrinsicHeight());
                     }

@@ -78,7 +78,7 @@ public class KLineView extends BaseView implements CoupleChartGestureListener.On
 
     protected ChartInfoView mChartInfoView;
     protected Context mContext;
-
+    private CoupleChartGestureListener.OnChartScrollEndListener mOnChartScrollEndListener;
     /**
      * last price
      */
@@ -106,13 +106,12 @@ public class KLineView extends BaseView implements CoupleChartGestureListener.On
         super(context, attrs, defStyleAttr);
         mContext = context;
         LayoutInflater.from(context).inflate(R.layout.view_kline, this);
-        mChartPrice = (AppCombinedChart) findViewById(R.id.price_chart);
-        mChartVolume = (AppCombinedChart) findViewById(R.id.vol_chart);
-        mChartMacd = (AppCombinedChart) findViewById(R.id.macd_chart);
-        mChartKdj = (AppCombinedChart) findViewById(R.id.kdj_chart);
-        mChartInfoView = (ChartInfoView) findViewById(R.id.k_info);
+        mChartPrice = findViewById(R.id.price_chart);
+        mChartVolume = findViewById(R.id.vol_chart);
+        mChartMacd = findViewById(R.id.macd_chart);
+        mChartKdj = findViewById(R.id.kdj_chart);
+        mChartInfoView = findViewById(R.id.k_info);
         mChartInfoView.setChart(mChartPrice, mChartVolume, mChartMacd, mChartKdj);
-
         mChartPrice.setNoDataText(context.getString(R.string.loading));
         initChartPrice();
         initBottomChart(mChartVolume);
@@ -223,7 +222,7 @@ public class KLineView extends BaseView implements CoupleChartGestureListener.On
 
 
     private void initChartListener() {
-        mChartPrice.setOnChartGestureListener(new CoupleChartGestureListener(this, mChartPrice, mChartVolume, mChartMacd, mChartKdj));
+        mChartPrice.setOnChartGestureListener(new CoupleChartGestureListener(this, mOnChartScrollEndListener, mChartPrice, mChartVolume, mChartMacd, mChartKdj));
         mChartPrice.setOnChartValueSelectedListener(new InfoViewListener(mContext, mLastClose, mData, mChartInfoView, mChartVolume, mChartMacd, mChartKdj));
         mChartPrice.setOnTouchListener(new ChartInfoViewHandler(mChartPrice));
     }
@@ -274,6 +273,7 @@ public class KLineView extends BaseView implements CoupleChartGestureListener.On
                 setLine(MA20, ma20Entries),
                 setLine(MA30, ma30Entries));
         CandleData candleData = new CandleData(setKLine(NORMAL_LINE, lineCJEntries));
+        candleData.setValueTextColor(getResources().getColor(R.color.axis_color));
         CombinedData combinedData = new CombinedData();
         combinedData.setData(lineData);
         combinedData.setData(candleData);
@@ -683,5 +683,24 @@ public class KLineView extends BaseView implements CoupleChartGestureListener.On
         setDescription(mChartKdj, String.format(Locale.getDefault(), "K:%.2f  D:%.2f  J:%.2f",
                 hisData.getK(), hisData.getD(), hisData.getJ()));
 
+    }
+
+    public void setOnChartScrollEndListener(CoupleChartGestureListener.OnChartScrollEndListener onChartScrollEndListener) {
+        this.mOnChartScrollEndListener = onChartScrollEndListener;
+        initChartListener();
+    }
+
+    public void moveViewToX(int location) {
+        if (location <= 0) {
+            return;
+        }
+        mChartPrice.moveViewToX(location);
+        mChartVolume.moveViewToX(location);
+        mChartMacd.moveViewToX(location);
+        mChartKdj.moveViewToX(location);
+    }
+
+    public int getLowestVisibleX() {
+        return (int) Math.floor(mChartPrice.getLowestVisibleX());
     }
 }

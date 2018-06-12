@@ -87,9 +87,9 @@ public class TimeLineView extends BaseView implements CoupleChartGestureListener
         super(context, attrs, defStyleAttr);
         mContext = context;
         LayoutInflater.from(context).inflate(R.layout.view_timeline, this);
-        mChartPrice = (AppCombinedChart) findViewById(R.id.price_chart);
-        mChartVolume = (AppCombinedChart) findViewById(R.id.vol_chart);
-        mChartInfoView = (ChartInfoView) findViewById(R.id.line_info);
+        mChartPrice = findViewById(R.id.price_chart);
+        mChartVolume = findViewById(R.id.vol_chart);
+        mChartInfoView = findViewById(R.id.line_info);
 
         mChartInfoView.setChart(mChartPrice, mChartVolume);
 
@@ -184,13 +184,18 @@ public class TimeLineView extends BaseView implements CoupleChartGestureListener
 
 
     private void initChartListener() {
-        mChartPrice.setOnChartGestureListener(new CoupleChartGestureListener(this, mChartPrice, mChartVolume));
-        mChartVolume.setOnChartGestureListener(new CoupleChartGestureListener(this, mChartVolume, mChartPrice));
-        mChartPrice.setOnChartValueSelectedListener(new InfoViewListener(mContext, mLastClose, mData, mChartInfoView, mChartVolume));
-        mChartVolume.setOnChartValueSelectedListener(new InfoViewListener(mContext, mLastClose, mData, mChartInfoView, mChartPrice));
+//        mChartPrice.setOnChartGestureListener(new CoupleChartGestureListener(this,null, mChartPrice, mChartVolume));
+//        mChartVolume.setOnChartGestureListener(new CoupleChartGestureListener(this,null, mChartVolume, mChartPrice));
+//        mChartPrice.setOnChartValueSelectedListener(new InfoViewListener(mContext, mLastClose, mData, mChartInfoView, mChartVolume));
+//        mChartVolume.setOnChartValueSelectedListener(new InfoViewListener(mContext, mLastClose, mData, mChartInfoView, mChartPrice));
+//
+//        mChartPrice.setOnTouchListener(new ChartInfoViewHandler(mChartPrice));
+//        mChartVolume.setOnTouchListener(new ChartInfoViewHandler(mChartVolume));
 
+
+        mChartPrice.setOnChartGestureListener(new CoupleChartGestureListener(this, null, mChartPrice, mChartVolume));
+        mChartPrice.setOnChartValueSelectedListener(new InfoViewListener(mContext, mLastClose, mData, mChartInfoView, mChartVolume));
         mChartPrice.setOnTouchListener(new ChartInfoViewHandler(mChartPrice));
-        mChartVolume.setOnTouchListener(new ChartInfoViewHandler(mChartVolume));
     }
 
 

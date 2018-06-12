@@ -127,7 +127,7 @@ public class AppCombinedChart extends CombinedChart {
 
 
     /**
-     * 重写这两个方法，为了让开盘价和涨跌幅剧中显示
+     * 重写这两个方法，为了让开盘价和涨跌幅居中显示
      * Performs auto scaling of the axis by recalculating the minimum and maximum y-values based on the entries currently in view.
      */
     protected void autoScale() {
@@ -173,7 +173,7 @@ public class AppCombinedChart extends CombinedChart {
     }
 
     /**
-     * 重写这两个方法，为了让开盘价和涨跌幅剧中显示
+     * 重写这两个方法，为了让开盘价和涨跌幅居中显示
      */
     @Override
     protected void calcMinMax() {

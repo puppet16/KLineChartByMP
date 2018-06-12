@@ -1,6 +1,7 @@
 package com.guoziwei.klinelib.chart;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -154,6 +155,7 @@ class BaseView extends LinearLayout {
         Description description = chart.getDescription();
 //        float dx = chart.getWidth() - chart.getViewPortHandler().offsetRight() - description.getXOffset();
 //        description.setPosition(dx, description.getTextSize());
+        description.setTextColor(Color.parseColor("#FFFFFF"));
         description.setText(text);
     }
 

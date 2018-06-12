@@ -157,14 +157,6 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
      */
     public abstract DataSet<T> copy();
 
-    /**
-     *
-     * @param dataSet
-     */
-    protected void copy(DataSet dataSet) {
-        super.copy(dataSet);
-    }
-
     @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer();
@@ -291,7 +283,8 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
 
     @Override
     public T getEntryForIndex(int index) {
-        return mValues.get(index);
+//        return mValues.get(index);
+        return (mValues == null || mValues.isEmpty()) ? null : mValues.get(index);
     }
 
     @Override

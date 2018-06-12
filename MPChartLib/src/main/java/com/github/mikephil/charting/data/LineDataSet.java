@@ -20,7 +20,7 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
     /**
      * Drawing mode for this line dataset
      **/
-    private LineDataSet.Mode mMode = Mode.LINEAR;
+    private Mode mMode = Mode.LINEAR;
 
     /**
      * List representing all colors that are used for the circles
@@ -30,7 +30,7 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
     /**
      * the color of the inner circles
      */
-    private int mCircleHoleColor = Color.WHITE;
+    private int mCircleColorHole = Color.WHITE;
 
     /**
      * the radius of the circle-shaped value indicators
@@ -84,27 +84,25 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
 
     @Override
     public DataSet<Entry> copy() {
-        List<Entry> entries = new ArrayList<Entry>();
-        for (int i = 0; i < mValues.size(); i++) {
-            entries.add(mValues.get(i).copy());
-        }
-        LineDataSet copied = new LineDataSet(entries, getLabel());
-        copy(copied);
-        return copied;
-    }
 
-    protected void copy(LineDataSet lineDataSet) {
-        super.copy(lineDataSet);
-        lineDataSet.mCircleColors = mCircleColors;
-        lineDataSet.mCircleHoleColor = mCircleHoleColor;
-        lineDataSet.mCircleHoleRadius = mCircleHoleRadius;
-        lineDataSet.mCircleRadius = mCircleRadius;
-        lineDataSet.mCubicIntensity = mCubicIntensity;
-        lineDataSet.mDashPathEffect = mDashPathEffect;
-        lineDataSet.mDrawCircleHole = mDrawCircleHole;
-        lineDataSet.mDrawCircles = mDrawCircleHole;
-        lineDataSet.mFillFormatter = mFillFormatter;
-        lineDataSet.mMode = mMode;
+        List<Entry> yVals = new ArrayList<Entry>();
+
+        for (int i = 0; i < mValues.size(); i++) {
+            yVals.add(mValues.get(i).copy());
+        }
+
+        LineDataSet copied = new LineDataSet(yVals, getLabel());
+        copied.mMode = mMode;
+        copied.mColors = mColors;
+        copied.mCircleRadius = mCircleRadius;
+        copied.mCircleHoleRadius = mCircleHoleRadius;
+        copied.mCircleColors = mCircleColors;
+        copied.mDashPathEffect = mDashPathEffect;
+        copied.mDrawCircles = mDrawCircles;
+        copied.mDrawCircleHole = mDrawCircleHole;
+        copied.mHighLightColor = mHighLightColor;
+
+        return copied;
     }
 
     /**
@@ -113,7 +111,7 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
      * @return
      */
     @Override
-    public LineDataSet.Mode getMode() {
+    public Mode getMode() {
         return mMode;
     }
 
@@ -122,7 +120,7 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
      *
      * @return
      */
-    public void setMode(LineDataSet.Mode mode) {
+    public void setMode(Mode mode) {
         mMode = mode;
     }
 
@@ -366,13 +364,13 @@ public class LineDataSet extends LineRadarDataSet<Entry> implements ILineDataSet
      *
      * @param color
      */
-    public void setCircleHoleColor(int color) {
-        mCircleHoleColor = color;
+    public void setCircleColorHole(int color) {
+        mCircleColorHole = color;
     }
 
     @Override
     public int getCircleHoleColor() {
-        return mCircleHoleColor;
+        return mCircleColorHole;
     }
 
     /**

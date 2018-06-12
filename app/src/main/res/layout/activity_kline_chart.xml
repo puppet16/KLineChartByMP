@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_kline_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.guoziwei.klinelib.chart.KLineView
+            android:id="@+id/kline"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#1E212A"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/rg_index"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/cb_vol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="成交量" />
+
+            <RadioButton
+                android:id="@+id/cb_macd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MACD" />
+
+            <RadioButton
+                android:id="@+id/cb_kdj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="KDJ" />
+        </RadioGroup>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:onClick="btnOnClick"
+            android:text="全屏" />
+    </LinearLayout>
+</LinearLayout>
