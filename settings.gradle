@@ -1,1 +1,1 @@
-include ':app',":klinelib",":MPChartLib"
+include ':app',":MPChartLib"

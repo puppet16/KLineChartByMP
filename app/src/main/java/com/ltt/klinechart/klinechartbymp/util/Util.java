@@ -2,9 +2,9 @@ package com.ltt.klinechart.klinechartbymp.util;
 
 import android.content.Context;
 
+import com.github.mikephil.klinelib.model.HisData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.guoziwei.klinelib.model.HisData;
 import com.ltt.klinechart.klinechartbymp.R;
 import com.ltt.klinechart.klinechartbymp.model.KModel;
 import com.ltt.klinechart.klinechartbymp.model.LineModel;

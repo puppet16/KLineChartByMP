@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.guoziwei.klinelib.chart.TimeLineView;
-import com.guoziwei.klinelib.model.HisData;
+import com.github.mikephil.klinelib.chart.TimeLineView;
+import com.github.mikephil.klinelib.model.HisData;
 import com.ltt.klinechart.klinechartbymp.util.Util;
 
 import java.util.List;

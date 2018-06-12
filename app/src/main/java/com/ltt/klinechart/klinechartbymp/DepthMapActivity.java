@@ -9,8 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.guoziwei.klinelib.chart.AppCombinedChart;
-import com.guoziwei.klinelib.chart.DepthMapView;
+import com.github.mikephil.klinelib.chart.DepthMapView;
 
 import java.util.ArrayList;
 import java.util.Random;

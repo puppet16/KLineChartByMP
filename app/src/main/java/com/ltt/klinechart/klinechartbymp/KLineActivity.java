@@ -13,9 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.guoziwei.klinelib.chart.CoupleChartGestureListener;
-import com.guoziwei.klinelib.chart.KLineView;
-import com.guoziwei.klinelib.model.HisData;
+import com.github.mikephil.klinelib.chart.KLineView;
+import com.github.mikephil.klinelib.model.HisData;
 import com.ltt.klinechart.klinechartbymp.util.Util;
 
 import java.util.List;
