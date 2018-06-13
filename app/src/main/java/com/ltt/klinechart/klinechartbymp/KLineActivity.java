@@ -37,7 +37,7 @@ public class KLineActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mView = LayoutInflater.from(this).inflate(R.layout.activity_kline_chart, null);
+        mView = LayoutInflater.from(this).inflate(R.layout.activity_demo_kline_chart, null);
         setContentView(mView);
         mKLineView = findViewById(R.id.kline);
         mLlParentView = findViewById(R.id.ll_kline_parent);

@@ -21,7 +21,7 @@ public class TimeLineActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timeline);
+        setContentView(R.layout.activity_demo_timeline);
         mTimeLineView = findViewById(R.id.timeLine);
         mTimeLineView.setDateFormat("HH:mm");
         int count = 241;

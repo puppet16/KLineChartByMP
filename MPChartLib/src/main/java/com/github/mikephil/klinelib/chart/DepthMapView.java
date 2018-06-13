@@ -4,12 +4,14 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.R;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
@@ -17,8 +19,10 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.klinelib.model.DepthMapData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Desc:
@@ -29,6 +33,8 @@ import java.util.ArrayList;
 public class DepthMapView extends LinearLayout {
     protected Context mContext;
     protected CombinedChart mChart;
+    protected DepthMapChartInfoView mMarkerView;
+    protected List<DepthMapData> mData = new ArrayList<>();
 
     public DepthMapView(Context context) {
         this(context, null);
@@ -43,10 +49,16 @@ public class DepthMapView extends LinearLayout {
         mContext = context;
         LayoutInflater.from(context).inflate(R.layout.view_depthmap, this);
         mChart = findViewById(R.id.depth_map_chart);
+        mMarkerView = findViewById(R.id.d_info);
+        initChart();
+    }
+
+    private void initChart() {
+        mMarkerView.setChart(mChart);
         mChart.getDescription().setEnabled(false);//设置不显示右下角描述
         mChart.setDrawGridBackground(false);//是否绘制网格背景
         mChart.setDrawBorders(false);
-        mChart.setTouchEnabled(false); // 设置是否可以触摸
+        mChart.setTouchEnabled(true); // 设置是否可以触摸
         mChart.setDragEnabled(false);// 是否可以拖拽
         mChart.setScaleEnabled(false);// 是否可以缩放
         //图例说明
@@ -54,31 +66,35 @@ public class DepthMapView extends LinearLayout {
         legend.setEnabled(false);//不显示图例
         YAxis rightAxis = mChart.getAxisRight();
         YAxis leftAxis = mChart.getAxisLeft();
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(getResources().getColor(R.color.axis_color));
         //右Y轴设置
         rightAxis.setDrawGridLines(false);//是否绘制轴线
         rightAxis.setAxisMinimum(0f);
         rightAxis.setStartAtZero(true);//设置坐标轴是否从0开始
+        rightAxis.setTextColor(getResources().getColor(R.color.axis_color));
         //左Y轴设置
         leftAxis.setDrawGridLines(false);//是否绘制轴线
         leftAxis.setAxisMinimum(0f);
         leftAxis.setStartAtZero(true);//设置坐标轴是否从0开始
+        leftAxis.setTextColor(getResources().getColor(R.color.axis_color));
+        mChart.setOnChartValueSelectedListener(new DepthMapInfoViewListener(mContext, mData, mMarkerView));
     }
 
-    public void setData(ArrayList<Float> xIndex, ArrayList<Float> yIndex) {
+    public void setData(ArrayList<DepthMapData> buyData, ArrayList<DepthMapData> sellData) {
+        mData.addAll(buyData);
+        mData.addAll(sellData);
+        for(int i=0; i<mData.size();i++) {
+            Log.d("DepthMapView:",mData.get(i).toString());
+        }
         ArrayList<Entry> leftValues = new ArrayList<>();
         ArrayList<Entry> rightValues = new ArrayList<>();
-        boolean isZero = false;
-        for (int i = 0; i < xIndex.size(); i++) {
-
-            if (yIndex.get(i) <= 0) {
-                isZero = true;
-                leftValues.add(new Entry(xIndex.get(i), 0, getResources().getDrawable(R.drawable.star)));
-            }
-            if (isZero) {
-                rightValues.add(new Entry(xIndex.get(i), yIndex.get(i), getResources().getDrawable(R.drawable.star)));
-            } else {
-                leftValues.add(new Entry(xIndex.get(i), yIndex.get(i), getResources().getDrawable(R.drawable.star)));
-            }
+        for (int i = 0; i < buyData.size(); i++) {
+            leftValues.add(new Entry((float) buyData.get(i).getPrice(), buyData.get(i).getVol(), getResources().getDrawable(R.drawable.star)));
+        }
+        for (int j = 0; j < sellData.size(); j++) {
+            rightValues.add(new Entry((float) sellData.get(j).getPrice(), sellData.get(j).getVol(), getResources().getDrawable(R.drawable.star)));
         }
 
         LineDataSet leftSet, rightSet;
@@ -127,6 +143,5 @@ public class DepthMapView extends LinearLayout {
         // set data
         mChart.setData(combinedData);
         mChart.invalidate();
-
     }
 }

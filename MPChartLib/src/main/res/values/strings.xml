@@ -11,4 +11,8 @@
     <string name="close_price">收盘价</string>
     <string name="high_price">最高价</string>
     <string name="low_price">最低价</string>
+    <string name="order_sell">卖</string>
+    <string name="order_buy">买</string>
+    <string name="order_num">挂单数</string>
+    <string name="order_type">类型</string>
 </resources>
