@@ -63,13 +63,29 @@ public class DepthMapView extends LinearLayout {
         mChart.setScaleEnabled(false);// 是否可以缩放
         //图例说明
         Legend legend = mChart.getLegend();
-        legend.setEnabled(false);//不显示图例
+        legend.setEnabled(true);//不显示图例
+        //设置图例文字大小
+        legend.setTextSize(50f);
+        legend.setTextColor(Color.WHITE);
+        //设置图例位置
+        legend.setPosition(Legend.LegendPosition.ABOVE_CHART_CENTER);
+        //设置图例形状:如SQUARE、CIRCLE、LINE、DEFAULT
+        legend.setForm(Legend.LegendForm.SQUARE);
+        //设置图例XY方向的间隔宽度
+        legend.setXEntrySpace(20f);
+        legend.setYEntrySpace(20f);
+        //设置图例标签到文字之间的距离
+        legend.setFormToTextSpace(20f);
+        //设置文本包装
+        legend.setWordWrapEnabled(true);
+
         YAxis rightAxis = mChart.getAxisRight();
         YAxis leftAxis = mChart.getAxisLeft();
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(getResources().getColor(R.color.axis_color));
         //右Y轴设置
+        rightAxis.setEnabled(false);
         rightAxis.setDrawGridLines(false);//是否绘制轴线
         rightAxis.setAxisMinimum(0f);
         rightAxis.setStartAtZero(true);//设置坐标轴是否从0开始
@@ -77,6 +93,7 @@ public class DepthMapView extends LinearLayout {
         //左Y轴设置
         leftAxis.setDrawGridLines(false);//是否绘制轴线
         leftAxis.setAxisMinimum(0f);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
         leftAxis.setStartAtZero(true);//设置坐标轴是否从0开始
         leftAxis.setTextColor(getResources().getColor(R.color.axis_color));
         mChart.setOnChartValueSelectedListener(new DepthMapInfoViewListener(mContext, mData, mMarkerView));
@@ -85,8 +102,8 @@ public class DepthMapView extends LinearLayout {
     public void setData(ArrayList<DepthMapData> buyData, ArrayList<DepthMapData> sellData) {
         mData.addAll(buyData);
         mData.addAll(sellData);
-        for(int i=0; i<mData.size();i++) {
-            Log.d("DepthMapView:",mData.get(i).toString());
+        for (int i = 0; i < mData.size(); i++) {
+            Log.d("DepthMapView:", mData.get(i).toString());
         }
         ArrayList<Entry> leftValues = new ArrayList<>();
         ArrayList<Entry> rightValues = new ArrayList<>();
@@ -99,8 +116,8 @@ public class DepthMapView extends LinearLayout {
 
         LineDataSet leftSet, rightSet;
         // create a dataset and give it a type
-        leftSet = new LineDataSet(leftValues, "left");
-        leftSet.setColor(Color.BLACK);
+        leftSet = new LineDataSet(leftValues, "买");
+        leftSet.setColor(Color.parseColor("#AAEEAA"));
         leftSet.setLineWidth(1f);
         leftSet.setCircleRadius(0f);
         leftSet.setValueTextSize(9f);
@@ -111,8 +128,8 @@ public class DepthMapView extends LinearLayout {
         leftSet.setDrawIcons(false);
         leftSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
 
-        rightSet = new LineDataSet(rightValues, "right");
-        rightSet.setColor(Color.RED);
+        rightSet = new LineDataSet(rightValues, "卖");
+        rightSet.setColor(Color.parseColor("#EEAAAA"));
         rightSet.setLineWidth(1f);
         rightSet.setCircleRadius(0f);
         rightSet.setValueTextSize(9f);
